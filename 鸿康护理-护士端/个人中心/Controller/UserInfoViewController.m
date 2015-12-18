@@ -1,0 +1,676 @@
+//
+//  UserInfoViewController.m
+//  鸿康护理-护士端
+//
+//  Created by 肖胜 on 15/11/19.
+//  Copyright (c) 2015年 肖胜. All rights reserved.
+//
+
+//确定：性别、执业地点、文化水平、就职医院、职称是弹框选择的，有接口提供数据
+
+#import "UserInfoViewController.h"
+#import "LoginViewController.h"
+#import "ChooseTableView.h"
+@interface UserInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIAlertViewDelegate>
+{
+    UIScrollView *_scrollView;
+    NSArray *_titles;                       // 单元格标题
+    NSArray *_values;                       // 单元格值
+    UIButton *logoutBtn;
+    UIImagePickerController *_imagePicker;
+    BOOL _isChooseHead;                     // 是否是选择图片
+    UIImage *_certificatePhoto;             // 证件照
+    BOOL _isEditing;
+    ChooseTableView *chooseView;            // 选择视图
+    CGFloat maxY;
+    UIImageView *headImg;
+    NSDictionary *_info;
+    NSString *vcode;
+    NSString *phone;
+}
+@end
+
+@implementation UserInfoViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+  
+    self.title = @"我的资料";
+    self.view.backgroundColor = [UIColor whiteColor];
+    _titles = @[@"用 户 名：",@"性      别：",@"年      龄：",@"执业地点：",@"民     族：",@"文化水平：",
+                @"手 机 号：",@"就职医院：",@"职      称：",@"从业经验：",@"身份证号："];
+    [self loadData];
+    _eduArr = @[@"博士及以上",@"研究生",@"本科",@"大专",@"高中及以下"];
+    _postParams = [NSMutableDictionary dictionary];
+    [_postParams setObject:[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERID] forKey:@"nurse_id"];
+    [self createSubviews];
+    
+    
+}
+
+// 加载个人信息
+- (void)loadData {
+    
+    if (![Utility getID]) {
+        
+        return;
+    }
+    [DataService requestURL:@"getNurseInfo" httpMethod:@"post" timeout:10 params:@{@"nurse_id":[Utility getID]} responseSerializer:nil completion:^(id result, NSError *error) {
+        
+        if (error == nil) {
+            
+            if ([result[@"err"] isEqualToNumber:@0]) {
+                
+                [self dictionaryToarray:result[@"info"]];
+                _info = result[@"info"];
+                [self loadInfo];
+            }
+            else {
+                
+                [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+            }
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:error.domain];
+        }
+        
+    }];
+}
+
+// 字典转数组
+- (void)dictionaryToarray:(NSDictionary *)dic {
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObject:dic[@"username"]];
+    [arr addObject:[dic[@"gender"] isEqualToString:@"0"]?@"男":@"女"];
+    [arr addObject:dic[@"age"]];
+    [arr addObject:dic[@"city_name"]];
+    [arr addObject:[dic[@"nation"] isEqualToString:@""]? @"汉族":dic[@"nation"]];
+    [arr addObject:dic[@"education"]];
+    [arr addObject:dic[@"phone"]];
+    [arr addObject:dic[@"hospital_name"]];
+    [arr addObject:dic[@"jobtitle_name"]];
+    [arr addObject:dic[@"experience"]];
+    [arr addObject:dic[@"idcard"]];
+    _values = arr;
+}
+
+// 创建scrollview
+- (void)createSubviews {
+    
+    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
+    self.navigationItem.rightBarButtonItem = right;
+    
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height-80-64)];
+    _scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:_scrollView];
+    
+    //---------------------头部-----------------
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 100)];
+    [_scrollView addSubview:headView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(choosePhoto)];
+    [headView addGestureRecognizer:tap];
+    
+    UILabel *IDLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
+    IDLabel.text = [NSString stringWithFormat:@"ID:%@",[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERPHONE]];
+    IDLabel.textColor = KNAVICOLOR;
+    IDLabel.font = [UIFont systemFontOfSize:FONT_SIZE_MIDDLE];
+    [headView addSubview:IDLabel];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 45, 60, 20)];
+    titleLabel.text = @"头像";
+    titleLabel.textColor = [UIColor grayColor];
+    [headView addSubview:titleLabel];
+    
+    headImg = [[UIImageView alloc]init];
+    [headImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BASEURL,[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_AVATAR]]] placeholderImage:[UIImage imageNamed:@"头像_xxhdpi"]];
+    headImg.frame = CGRectMake(kScreenWidth-100, 15, 70, 70);
+    headImg.layer.cornerRadius = headImg.width*0.5;
+    headImg.layer.masksToBounds = YES;
+    headImg.layer.borderWidth = 1.5;
+    headImg.layer.borderColor = KNAVICOLOR.CGColor;
+    [headView addSubview:headImg];
+    
+    UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(20, headView.bottom, self.view.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:0.906f green:0.910f blue:0.914f alpha:1.00f];
+    [_scrollView addSubview:line];
+    
+    maxY = line.bottom+10;
+    
+    // -----------------退出----------------------
+    logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+    logoutBtn.backgroundColor = KNAVICOLOR;
+    logoutBtn.layer.cornerRadius = 5;
+    [logoutBtn addTarget:self action:@selector(logouAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:logoutBtn];
+    [logoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.centerX.equalTo(self.view);
+        make.width.mas_equalTo(self.view.width*0.7);
+        make.height.mas_equalTo(40);
+        make.top.equalTo(_scrollView.mas_bottom).offset(20);
+    }];
+
+}
+
+// 创建scroll子视图
+- (void)loadInfo {
+    
+    for (int i = 0; i < _titles.count; i++) {
+        
+        [self createScrollSubViews:i];
+    }
+}
+
+// 创建单条个人信息
+- (void)createScrollSubViews:(NSInteger)index {
+    
+    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, maxY, 100, 40)];
+    title.text = _titles[index];
+    title.textColor = [UIColor darkGrayColor];
+    [_scrollView addSubview:title];
+    maxY = title.bottom+5;
+    _scrollView.contentSize = CGSizeMake(_scrollView.width, maxY);
+    
+    UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(title.right-30, title.bottom, self.view.width-title.right+10, 1)];
+    line.backgroundColor = [UIColor colorWithRed:0.906f green:0.910f blue:0.914f alpha:1.00f];
+    [_scrollView addSubview:line];
+    
+    if (index != 1 && index != 3 && index != 5 && index != 6 && index != 7 && index != 8) {
+        
+        UITextField *valueTF = [[UITextField alloc]initWithFrame:CGRectMake(title.right, title.y, self.view.width-title.right-5, 40)];
+        valueTF.enabled = NO;
+        valueTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+        valueTF.text = _values[index];
+        valueTF.delegate = self;
+        valueTF.tag = index;
+        if (index == 2) {
+            
+            valueTF.placeholder = @"18~60";
+        }
+        if (index == 2 || index == 6 || index == 9) {
+            
+            valueTF.keyboardType = UIKeyboardTypeNumberPad;
+        }
+        [_scrollView addSubview:valueTF];
+    }
+    else if(index == 6){
+        UILabel *phoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(title.right, title.y, self.view.width-title.right-5, 40)];
+        phoneLabel.text = _values[index];
+        [_scrollView addSubview:phoneLabel];
+    }
+    else {
+        UIButton *valueBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        valueBtn.frame = CGRectMake(title.right, title.y, self.view.width-title.right-5, 40);
+        [valueBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        valueBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [valueBtn setTitle:_values[index] forState:UIControlStateNormal];
+        [valueBtn addTarget:self action:@selector(modAction:) forControlEvents:UIControlEventTouchUpInside];
+        valueBtn.enabled = NO;
+        valueBtn.tag = index;
+        [_scrollView addSubview:valueBtn];
+    }
+}
+
+#pragma mark -  Action
+// 修改信息点击部分
+- (void)modAction:(UIButton *)button {
+    
+    [self.view endEditing:YES];
+    __weak typeof(self) weakSelf = self;
+    switch (button.tag) {
+            // 修改性别
+        case 1:
+        {
+            UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"选择性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"男" otherButtonTitles:@"女", nil];
+            sheet.tag = 100;
+            [sheet showInView:self.view];
+
+        }
+            break;
+            // 执业地点
+        case 3:
+        {
+            // 获取城市
+            [DataService requestURL:@"getCity" httpMethod:@"post" timeout:10 params:nil responseSerializer:nil completion:^(id result, NSError *error) {
+               
+                if (error == nil) {
+                    
+                    if ([result[@"err"] isEqualToNumber:@0]) {
+                        
+                        weakSelf.addressArr = result[@"city_list"];
+                        chooseView = [[ChooseTableView alloc]initWithDataSource:weakSelf.addressArr ChildType:Dictionary Key:@"class_name"];
+                        [chooseView setBlock:^(NSIndexPath * indexPath) {
+                            
+                            // 获取此地点医院
+                            [DataService requestURL:@"getHospital" httpMethod:@"post" timeout:10 params:@{@"city_id":weakSelf.addressArr[indexPath.row][@"class_id"]} responseSerializer:nil completion:^(id result, NSError *error) {
+                               
+                                if (error == nil) {
+                                    //有医院
+                                    if ([result[@"err"] isEqualToNumber:@0]) {
+                                        [button setTitle:weakSelf.addressArr[indexPath.row][@"class_name"] forState:UIControlStateNormal];
+                                        [weakSelf.postParams setObject:weakSelf.addressArr[indexPath.row][@"class_id"] forKey:@"city_id"];
+                                        
+                                    }
+                                    // 无医院
+                                    else {
+                                     
+                                        [SVProgressHUD showErrorWithStatus:@"此城市暂无医院数据，请重新选择"];
+                                        
+                                    }
+                                }
+                                else {
+                                    [SVProgressHUD showErrorWithStatus:error.domain];
+                                }
+                            }];
+                        }];
+                        [self.view addSubview:chooseView];
+
+                    }
+                    else {
+                        
+                        [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+                    }
+                }
+                else {
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }
+            }];
+
+        }
+            break;
+            // 文化水平
+        case 5:
+        {
+            chooseView = [[ChooseTableView alloc]initWithDataSource:_eduArr ChildType:String Key:nil];
+            [chooseView setBlock:^(NSIndexPath * indexPath) {
+                
+                [button setTitle:weakSelf.eduArr[indexPath.row] forState:UIControlStateNormal];
+                [weakSelf.postParams setObject:button.currentTitle forKey:@"education"];
+            }];
+            [self.view addSubview:chooseView];
+
+        }
+            break;
+        
+            // 医院
+        case 7:
+        {
+            // 没有切换过城市
+            NSString *city_id = _postParams[@"city_id"];
+            if (!city_id) {
+                city_id = _info[@"city_id"];
+            }
+            [DataService requestURL:@"getHospital" httpMethod:@"post" timeout:10 params:@{@"city_id":city_id} responseSerializer:nil completion:^(id result, NSError *error) {
+                
+                if (error == nil) {
+                    
+                    if ([result[@"err"] isEqualToNumber:@0]) {
+                        
+                        weakSelf.hospitalArr = result[@"hospital_list"];
+                        chooseView = [[ChooseTableView alloc]initWithDataSource:weakSelf.hospitalArr ChildType:Dictionary Key:@"name"];
+                        [chooseView setBlock:^(NSIndexPath * indexPath) {
+                            
+                            [button setTitle:weakSelf.hospitalArr[indexPath.row][@"name"] forState:UIControlStateNormal];
+                            [weakSelf.postParams setObject:weakSelf.hospitalArr[indexPath.row][@"id"] forKey:@"hospital_id"];
+                        }];
+                        [self.view addSubview:chooseView];
+
+                    }
+                    else {
+                        [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+                    }
+                }
+                else {
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }
+            }];
+
+        }
+            break;
+            // 职称
+        default:
+        {
+            [DataService requestURL:@"getJobtitle" httpMethod:@"post" timeout:10 params:@{@"type":@0} responseSerializer:nil completion:^(id result, NSError *error) {
+               
+                if (error == nil) {
+                    
+                    if ([result[@"err"] isEqualToNumber:@0]) {
+                        
+                        weakSelf.titleArr = result[@"jobtitle_list"];
+                        chooseView = [[ChooseTableView alloc]initWithDataSource:weakSelf.titleArr ChildType:Dictionary Key:@"name"];
+                        [chooseView setBlock:^(NSIndexPath * indexPath) {
+                            
+                            [button setTitle:weakSelf.titleArr[indexPath.row][@"name"] forState:UIControlStateNormal];
+                            [weakSelf.postParams setObject:weakSelf.titleArr[indexPath.row][@"id"] forKey:@"jobtitle_id"];
+                        }];
+                        [self.view addSubview:chooseView];
+                    }
+                    else {
+                        [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+                    }
+                }
+                else {
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }
+            }];
+
+        }
+            break;
+    }
+}
+
+// 选择头像
+- (void)choosePhoto {
+    
+    _isChooseHead = YES;
+    if (iOS8) {
+        
+        if (_imagePicker == nil) {
+            
+            _imagePicker = [[UIImagePickerController alloc]init];
+            _imagePicker.allowsEditing = YES;
+            _imagePicker.delegate = self;
+        }
+        UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"更改头像" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
+        [sheet addAction:[UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:_imagePicker animated:YES completion:nil];
+        }]];
+        [sheet addAction:[UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                
+                _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:_imagePicker animated:YES completion:nil];
+            }
+            else {
+                [SVProgressHUD showErrorWithStatus:@"此设备不支持相机"];
+            }
+        }]];
+        
+        [sheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        
+        [self presentViewController:sheet animated:YES completion:^{
+            
+        }];
+        
+    }
+    else {
+        
+        UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"更改头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"相机" otherButtonTitles:@"相册", nil];
+        [sheet showInView:self.view];
+    }
+
+}
+
+// 编辑/取消
+- (void)editAction:(UIBarButtonItem *)item {
+
+    if([item.title isEqualToString:@"编辑"]) {
+        item.title = @"取消";
+        [logoutBtn setTitle:@"保存" forState:UIControlStateNormal];
+        [logoutBtn removeTarget:self action:@selector(logouAction:) forControlEvents:UIControlEventTouchUpInside];
+        [logoutBtn addTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
+        for (UIView *subView in _scrollView.subviews) {
+            
+            if ([subView isKindOfClass:[UITextField class]]) {
+                ((UITextField *)subView).enabled = YES;
+            }
+            if ([subView isKindOfClass:[UIButton class]] && subView != logoutBtn) {
+                
+                ((UIButton *)subView).enabled = YES;
+            }
+        }
+    }
+    else {
+        item.title = @"编辑";
+        [_postParams removeAllObjects];
+        [_postParams setObject:[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERID] forKey:@"nurse_id"];
+        [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [logoutBtn removeTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
+        [logoutBtn addTarget:self action:@selector(logouAction:) forControlEvents:UIControlEventTouchUpInside];
+        for (UIView *subView in _scrollView.subviews) {
+            
+            if (subView.y >= 110 && subView != logoutBtn) {
+                
+                [subView removeFromSuperview];
+            }
+        }
+        maxY = 110;
+        [self loadInfo];
+        
+    }
+    [self.view endEditing:YES];
+}
+
+// 退出登录
+- (void)logouAction:(UIButton *)button {
+    
+    [DataService requestURL:@"nurseLogout" httpMethod:@"post" timeout:10 params:@{@"nurse_id":[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERID]} responseSerializer:nil completion:^(id result, NSError *error) {
+        
+    }];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:HKHL_MEMBERID];
+    LoginViewController *loginVC = [[LoginViewController alloc]init];
+    [self.navigationController pushViewController:loginVC animated:YES];
+}
+
+// 保存修改
+- (void)submitAction:(UIButton *)button {
+    
+    [self.view endEditing:YES];
+ 
+    // 无修改
+    if (_postParams.count ==  1) {
+        
+        [SVProgressHUD showErrorWithStatus:@"未作任何修改"];
+        return;
+    }
+    
+    [DataService requestURL:@"modNurseInfo" httpMethod:@"post" timeout:10 params:_postParams responseSerializer:nil completion:^(id result, NSError *error) {
+        
+        if (error == nil) {
+            
+            if ([result[@"err"] isEqualToNumber:@0]) {
+                
+                [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+                
+                for (UIView *subView in _scrollView.subviews) {
+                    
+                    if ([subView isKindOfClass:[UITextField class]]) {
+                        ((UITextField *)subView).enabled = NO;
+                    }
+                    if ([subView isKindOfClass:[UIButton class]] && subView != logoutBtn) {
+                        
+                        ((UIButton *)subView).enabled = NO;
+                    }
+                }
+                
+                if ([[_postParams allKeys] containsObject:@"hospital_id"]) {
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MODIFY_HOSPITAL_SUCCESS object:nil];
+                }
+                
+                self.navigationItem.rightBarButtonItem.title = @"编辑";
+                [_postParams removeAllObjects];
+                [_postParams setObject:[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERID] forKey:@"nurse_id"];
+                [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+                [logoutBtn removeTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
+                [logoutBtn addTarget:self action:@selector(logouAction:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else {
+             
+                [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+            }
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:error.domain];
+        }
+    }];
+}
+
+#pragma mark - UITextField delegate
+// 输入完成
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+
+    switch (textField.tag) {
+            // 用户名
+        case 0:
+            if (textField.text.length == 0) {
+                
+                [SVProgressHUD showErrorWithStatus:@"用户名至少为两位字符"];
+            }
+            else {
+                [_postParams setObject:textField.text forKey:@"username"];
+            }
+            break;
+            // 年龄
+        case 2:
+            if ([textField.text integerValue] > 60 || [textField.text integerValue] < 18) {
+                [SVProgressHUD showErrorWithStatus:@"年龄无效"];
+                textField.text = @"";
+            }
+            else {
+                [_postParams setObject:textField.text forKey:@"age"];
+            }
+            break;
+            // 民族
+        case 4:
+            [_postParams setObject:textField.text forKey:@"nation"];
+            break;
+            // 手机号
+        case 6:
+            if (![Utility isValidateMobile:textField.text]) {
+                
+                [SVProgressHUD showErrorWithStatus:@"手机号无效"];
+                textField.text = @"";
+            }
+            else {
+                [_postParams setObject:textField.text forKey:@"phone"];
+            }
+            break;
+            // 从业经验
+        case 9:
+            if ([textField.text integerValue] > 60) {
+                
+                [SVProgressHUD showErrorWithStatus:@"输入有误"];
+            }
+            else {
+                [_postParams setObject:textField.text forKey:@"experience"];
+            }
+            break;
+            // 身份证号
+        case 10:
+            if (![Utility isValidateIDCard:textField.text]) {
+                [SVProgressHUD showErrorWithStatus:@"身份证号无效"];
+                textField.text = _values[10];
+            }
+            else {
+                [_postParams setObject:textField.text forKey:@"idcard"];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - UIActionSheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (actionSheet.tag == 100) {
+
+        UIButton *button = (UIButton *)[_scrollView viewWithTag:1];
+        [_postParams setObject:@(buttonIndex) forKey:@"gender"];
+        // 男
+        if (buttonIndex == 0) {
+            
+            [button setTitle:@"男" forState:UIControlStateNormal];
+        }
+        // 女
+        else {
+            [button setTitle:@"女" forState:UIControlStateNormal];
+        }
+    }
+    else {
+        if (_imagePicker == nil) {
+            _imagePicker = [[UIImagePickerController alloc]init];
+            _imagePicker.allowsEditing = YES;
+            _imagePicker.delegate = self;
+        }
+        if (buttonIndex == 0) {
+            
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                
+                _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:_imagePicker animated:YES completion:nil];
+            }
+            else {
+                [SVProgressHUD showErrorWithStatus:@"此设备不支持相机"];
+            }
+
+        }
+        if (buttonIndex == 1) {
+            _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:_imagePicker animated:YES completion:nil];
+        }
+    }
+}
+
+#pragma mark - UIImagePickerController delegate
+// 选择图片
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (img == nil) {
+        
+        img = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+        // 选取头像
+        if (_isChooseHead) {
+            
+            NSData *data = UIImageJPEGRepresentation(img, 1.0f);
+            [SVProgressHUD showWithStatus:@"头像修改中。。。"];
+            [DataService requestURL:@"modNurseAvatar" timeout:10 params:@{@"nurse_id":[[NSUserDefaults standardUserDefaults] objectForKey:HKHL_MEMBERID]} fileData:data responseSerializer:nil completion:^(id result, NSError *error) {
+                
+                if (error == nil) {
+                    
+                    if ([result[@"err"] isEqualToNumber:@0]) {
+                        
+                        headImg.image = img;
+                        [[NSUserDefaults standardUserDefaults] setObject:result[@"msg"] forKey:HKHL_AVATAR];
+                        [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+                    }
+                    else {
+                        
+                        [SVProgressHUD showErrorWithStatus:result[@"msg"]];
+                    }
+                }
+                else {
+                    [SVProgressHUD showErrorWithStatus:error.domain];
+                }
+            }];
+
+        }
+        // 证件照
+        else {
+            
+            _certificatePhoto = img;
+        }
+    }];
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        
+        UIImageWriteToSavedPhotosAlbum(img, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    }
+    
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    
+}
+@end

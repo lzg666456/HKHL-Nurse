@@ -1,0 +1,67 @@
+//
+//  TaskCell.m
+//  鸿康护理-护士端
+//
+//  Created by 肖胜 on 15/11/19.
+//  Copyright (c) 2015年 肖胜. All rights reserved.
+//
+
+#import "TaskCell.h"
+
+@implementation TaskCell
+
+
+- (void)setIsPopular:(BOOL)isPopular {
+        
+    _isPopular = isPopular;
+    
+    [self setNeedsLayout];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+//    begintime = 1448931600;
+//    endtime = 1448971200;
+//    id = 2;
+//    number = "<null>";
+//    "sub_pic" = "[\"\\/Uploads\\/Images\\/2015-11-21\\/564fffa7d25ee.png\",\"\\/Uploads\\/Images\\/2015-11-21\\/564fffa7d2dbe.png\"]";
+//    subject = "\U62a4\U7406\U91cd\U75c7\U8001\U4eba";
+
+    NSData *data = [_dic[@"sub_pic"] dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *arr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BASEURL,arr[0]]] placeholderImage:[UIImage imageNamed:@"主图_xxhdpi"]];
+    _titleLabel.text = _dic[@"subject"];
+    NSString *begin = [Utility timeintervalToDate:[_dic[@"begintime"] doubleValue] Formatter:@"MM月dd日"];
+    
+    NSString *end ;
+    if ([_dic[@"endtime"] isEqualToString:@"0"]) {
+        
+        end = @"无期限";
+    }
+    else {
+       end = [Utility timeintervalToDate:[_dic[@"endtime"] doubleValue] Formatter:@"MM月dd日"];
+    }
+    _timeLabel.text = [NSString stringWithFormat:@"%@-%@",begin,end];
+    _timeLabel.adjustsFontSizeToFitWidth = YES;
+    if (_isPopular) {
+        
+        NSInteger num;
+        if ([_dic[@"number"] isKindOfClass:[NSNull class]]) {
+            
+            num = 0;
+        }
+        else {
+            num = [_dic[@"number"] integerValue];
+        }
+        
+        _creattime.text = [NSString stringWithFormat:@"%ld人报名",(long)num];
+    }
+    else {
+        _creattime.text = [Utility timeintervalToDate:[_dic[@"createtime"] doubleValue]Formatter:@"MM月dd日 HH:mm"];
+        _creattime.adjustsFontSizeToFitWidth = YES;
+
+    }
+}
+@end

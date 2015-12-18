@@ -1,0 +1,18 @@
+//
+//  NoticeCell.m
+//  鸿康护理-护士端
+//
+//  Created by 肖胜 on 15/11/19.
+//  Copyright (c) 2015年 肖胜. All rights reserved.
+//
+
+#import "NoticeCell.h"
+
+@implementation NoticeCell
+
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _isNewLaebl.layer.cornerRadius = _isNewLaebl.width/2.0;
+}
+@end

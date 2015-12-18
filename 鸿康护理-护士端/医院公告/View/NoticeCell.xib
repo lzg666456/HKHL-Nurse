@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="KGk-i7-Jjw" customClass="NoticeCell">
+            <rect key="frame" x="0.0" y="0.0" width="325" height="84"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="上午 10:08:52" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daP-W4-fXQ">
+                        <rect key="frame" x="15" y="10" width="100" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="kmf-Ne-Iji"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.46034564389999999" green="0.46034564389999999" blue="0.46034564389999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="院长办公室" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wnv-cZ-99e">
+                        <rect key="frame" x="240" y="10" width="65" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.46034564389999999" green="0.46034564389999999" blue="0.46034564389999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUD-E9-cYV">
+                        <rect key="frame" x="15" y="32" width="300" height="41"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.46034564389999999" green="0.46034564389999999" blue="0.46034564389999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="kUD-E9-cYV" secondAttribute="bottom" constant="10" id="1Gd-m3-6Ne"/>
+                    <constraint firstItem="daP-W4-fXQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="9WZ-Qr-dXF"/>
+                    <constraint firstItem="daP-W4-fXQ" firstAttribute="top" secondItem="Wnv-cZ-99e" secondAttribute="top" id="DMz-UF-q9k"/>
+                    <constraint firstItem="kUD-E9-cYV" firstAttribute="top" secondItem="daP-W4-fXQ" secondAttribute="bottom" constant="5" id="K7i-yh-Ju3"/>
+                    <constraint firstAttribute="trailing" secondItem="kUD-E9-cYV" secondAttribute="trailing" constant="10" id="OSg-mG-7gl"/>
+                    <constraint firstItem="daP-W4-fXQ" firstAttribute="leading" secondItem="kUD-E9-cYV" secondAttribute="leading" id="YYk-gk-vus"/>
+                    <constraint firstAttribute="trailing" secondItem="Wnv-cZ-99e" secondAttribute="trailing" constant="20" id="tZw-M7-tEd"/>
+                    <constraint firstItem="daP-W4-fXQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ub1-p0-hZw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="contentLabel" destination="kUD-E9-cYV" id="MMl-pP-drW"/>
+                <outlet property="sourceLabel" destination="Wnv-cZ-99e" id="UUF-wd-ZBX"/>
+                <outlet property="timeLabel" destination="daP-W4-fXQ" id="aGI-IT-y7r"/>
+            </connections>
+            <point key="canvasLocation" x="365.5" y="383"/>
+        </tableViewCell>
+    </objects>
+</document>

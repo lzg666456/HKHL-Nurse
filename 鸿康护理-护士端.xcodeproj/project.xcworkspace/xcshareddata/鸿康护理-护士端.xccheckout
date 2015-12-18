@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CF51C971-2DE6-4264-B078-B34AE114E40E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>https://192.168.2.145/svn/project/%25E9%25B8%25BF%25E5%25BA%25B7%25E6%258A%25A4%25E7%2590%2586/trunk/iOS/%25E9%25B8%25BF%25E5%25BA%25B7%25E6%258A%25A4%25E7%2590%2586-%25E6%258A%25A4%25E5%25A3%25AB%25E7%25AB%25AF</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>鸿康护理-护士端.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>https://192.168.2.145/svn/project</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://192.168.2.145/svn/project/%25E9%25B8%25BF%25E5%25BA%25B7%25E6%258A%25A4%25E7%2590%2586/trunk/iOS/%25E9%25B8%25BF%25E5%25BA%25B7%25E6%258A%25A4%25E7%2590%2586-%25E6%258A%25A4%25E5%25A3%25AB%25E7%25AB%25AF/%E9%B8%BF%E5%BA%B7%E6%8A%A4%E7%90%86-%E6%8A%A4%E5%A3%AB%E7%AB%AF.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</string>
+			<key>IDESourceControlWCCName</key>
+			<string>%E9%B8%BF%E5%BA%B7%E6%8A%A4%E7%90%86-%E6%8A%A4%E5%A3%AB%E7%AB%AF</string>
+		</dict>
+	</array>
+</dict>
+</plist>

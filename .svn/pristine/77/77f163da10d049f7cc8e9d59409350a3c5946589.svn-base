@@ -1,0 +1,28 @@
+//
+//  XS.pch
+//  鸿康护理-护士端
+//
+//  Created by 肖胜 on 15/11/18.
+//  Copyright (c) 2015年 肖胜. All rights reserved.
+//
+
+#ifndef _________XS_pch
+#define _________XS_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "ServerHeader.h"
+#import "UIImageView+WebCache.h"
+#import "SVProgressHUD.h"
+#import "UIView+EXT.h"
+#import "Masonry.h"
+#import "Utility.h"
+#import "DataService.h"
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
+
+
+#endif

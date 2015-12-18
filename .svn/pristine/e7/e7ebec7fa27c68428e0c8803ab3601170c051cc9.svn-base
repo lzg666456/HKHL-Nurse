@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CF51C971-2DE6-4264-B078-B34AE114E40E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>鸿康护理-护士端</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>https://192.168.2.145/svn/project/%252525E9%252525B8%252525BF%252525E5%252525BA%252525B7%252525E6%2525258A%252525A4%252525E7%25252590%25252586/trunk/iOS/%252525E9%252525B8%252525BF%252525E5%252525BA%252525B7%252525E6%2525258A%252525A4%252525E7%25252590%25252586-%252525E6%2525258A%252525A4%252525E5%252525A3%252525AB%252525E7%252525AB%252525AF</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>鸿康护理-护士端.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</key>
+		<string>https://192.168.2.145/svn/project</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://192.168.2.145/svn/project/%252525E9%252525B8%252525BF%252525E5%252525BA%252525B7%252525E6%2525258A%252525A4%252525E7%25252590%25252586/trunk/iOS/%252525E9%252525B8%252525BF%252525E5%252525BA%252525B7%252525E6%2525258A%252525A4%252525E7%25252590%25252586-%252525E6%2525258A%252525A4%252525E5%252525A3%252525AB%252525E7%252525AB%252525AF/%E9%B8%BF%E5%BA%B7%E6%8A%A4%E7%90%86-%E6%8A%A4%E5%A3%AB%E7%AB%AF.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0d81b12c-97ff-4545-9faf-8aa9966be36a++6551</string>
+			<key>IDESourceControlWCCName</key>
+			<string>%E9%B8%BF%E5%BA%B7%E6%8A%A4%E7%90%86-%E6%8A%A4%E5%A3%AB%E7%AB%AF</string>
+		</dict>
+	</array>
+</dict>
+</plist>

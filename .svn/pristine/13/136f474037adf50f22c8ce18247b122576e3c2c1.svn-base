@@ -1,0 +1,69 @@
+//
+//  NoticeViewController.m
+//  鸿康护理-护士端
+//
+//  Created by 肖胜 on 15/11/18.
+//  Copyright (c) 2015年 肖胜. All rights reserved.
+//
+
+#import "NoticeViewController.h"
+#import "NoticeCell.h"
+#import "NoticeDetailViewController.h"
+@interface NoticeViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    UITableView *_tableView;
+}
+@end
+
+@implementation NoticeViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.title = @"医院公告";
+    self.backBtn.hidden = YES;
+    [self createSubviews];
+}
+
+- (void)createSubviews {
+    
+    _tableView = [[UITableView alloc]init];
+    [self.view addSubview:_tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView registerNib:[UINib nibWithNibName:@"NoticeCell" bundle:nil] forCellReuseIdentifier:@"CellID"];
+    UIView *foot = [[UIView alloc]init];
+    foot.backgroundColor = [UIColor clearColor];
+    _tableView.tableFooterView = foot;
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.edges.equalTo(self.view);
+    }];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 80;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    self.hidesBottomBarWhenPushed = YES;
+    NoticeDetailViewController *detailVC = [[NoticeDetailViewController alloc]init];
+    [self.navigationController pushViewController:detailVC animated:YES];
+    self.hidesBottomBarWhenPushed = NO;
+}
+
+@end
