@@ -20,8 +20,6 @@
 		510931941C0FCE27005EBC74 /* NoticificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510931921C0FCE27005EBC74 /* NoticificationCell.xib */; };
 		510A6C701BFEB8B8008A1C07 /* app-icon-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 510A6C6F1BFEB8B8008A1C07 /* app-icon-180.png */; };
 		510A6C791BFEBBD4008A1C07 /* SelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C781BFEBBD4008A1C07 /* SelectCell.m */; };
-		510A6C871BFEFBB6008A1C07 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C841BFEFBB6008A1C07 /* TaskDetailViewController.m */; };
-		510A6C881BFEFBB6008A1C07 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C861BFEFBB6008A1C07 /* TaskViewController.m */; };
 		510A6C8C1BFEFDD5008A1C07 /* XSPhotoCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C8B1BFEFDD5008A1C07 /* XSPhotoCarousel.m */; };
 		510A6C911BFF0065008A1C07 /* NextRegistController.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C8E1BFF0065008A1C07 /* NextRegistController.m */; };
 		510A6C921BFF0065008A1C07 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 510A6C901BFF0065008A1C07 /* RegisterViewController.m */; };
@@ -54,6 +52,8 @@
 		514975351C02EBC700072D15 /* 我要报名框_xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 514975341C02EBC700072D15 /* 我要报名框_xxhdpi.png */; };
 		514975371C02F00A00072D15 /* 认证_xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 514975361C02F00A00072D15 /* 认证_xxhdpi.png */; };
 		5149753A1C0405E000072D15 /* AddCertificateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 514975391C0405E000072D15 /* AddCertificateViewController.m */; };
+		51B9BA4D1C29141C00265DDD /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B9BA4A1C29141C00265DDD /* TaskDetailViewController.m */; };
+		51B9BA4E1C29141C00265DDD /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B9BA4C1C29141C00265DDD /* TaskViewController.m */; };
 		51BC8C151BFDA11200A69835 /* MyCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BC8C141BFDA11200A69835 /* MyCollectionController.m */; };
 		51BC8C191BFDA25500A69835 /* MyCollectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BC8C171BFDA25500A69835 /* MyCollectCell.m */; };
 		51BC8C1A1BFDA25500A69835 /* MyCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51BC8C181BFDA25500A69835 /* MyCollectCell.xib */; };
@@ -268,10 +268,6 @@
 		510A6C6F1BFEB8B8008A1C07 /* app-icon-180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-180.png"; sourceTree = "<group>"; };
 		510A6C771BFEBBD4008A1C07 /* SelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCell.h; sourceTree = "<group>"; };
 		510A6C781BFEBBD4008A1C07 /* SelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCell.m; sourceTree = "<group>"; };
-		510A6C831BFEFBB6008A1C07 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = ../../base/TaskDetailViewController.h; sourceTree = "<group>"; };
-		510A6C841BFEFBB6008A1C07 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = ../../base/TaskDetailViewController.m; sourceTree = "<group>"; };
-		510A6C851BFEFBB6008A1C07 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskViewController.h; path = ../../base/TaskViewController.h; sourceTree = "<group>"; };
-		510A6C861BFEFBB6008A1C07 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskViewController.m; path = ../../base/TaskViewController.m; sourceTree = "<group>"; };
 		510A6C8A1BFEFDD5008A1C07 /* XSPhotoCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSPhotoCarousel.h; sourceTree = "<group>"; };
 		510A6C8B1BFEFDD5008A1C07 /* XSPhotoCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSPhotoCarousel.m; sourceTree = "<group>"; };
 		510A6C8D1BFF0065008A1C07 /* NextRegistController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextRegistController.h; sourceTree = "<group>"; };
@@ -312,6 +308,10 @@
 		514975361C02F00A00072D15 /* 认证_xxhdpi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "认证_xxhdpi.png"; path = "../frameworks/评分星星/认证_xxhdpi.png"; sourceTree = "<group>"; };
 		514975381C0405E000072D15 /* AddCertificateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCertificateViewController.h; sourceTree = "<group>"; };
 		514975391C0405E000072D15 /* AddCertificateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCertificateViewController.m; sourceTree = "<group>"; };
+		51B9BA491C29141C00265DDD /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
+		51B9BA4A1C29141C00265DDD /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
+		51B9BA4B1C29141C00265DDD /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
+		51B9BA4C1C29141C00265DDD /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		51BC8C131BFDA11200A69835 /* MyCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionController.h; sourceTree = "<group>"; };
 		51BC8C141BFDA11200A69835 /* MyCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionController.m; sourceTree = "<group>"; };
 		51BC8C161BFDA25500A69835 /* MyCollectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectCell.h; sourceTree = "<group>"; };
@@ -1291,10 +1291,10 @@
 		51D0771B1BFC4B8F00D11E5F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				510A6C831BFEFBB6008A1C07 /* TaskDetailViewController.h */,
-				510A6C841BFEFBB6008A1C07 /* TaskDetailViewController.m */,
-				510A6C851BFEFBB6008A1C07 /* TaskViewController.h */,
-				510A6C861BFEFBB6008A1C07 /* TaskViewController.m */,
+				51B9BA491C29141C00265DDD /* TaskDetailViewController.h */,
+				51B9BA4A1C29141C00265DDD /* TaskDetailViewController.m */,
+				51B9BA4B1C29141C00265DDD /* TaskViewController.h */,
+				51B9BA4C1C29141C00265DDD /* TaskViewController.m */,
 				510A6C971BFF18C5008A1C07 /* MapViewController.h */,
 				510A6C981BFF18C5008A1C07 /* MapViewController.m */,
 				51FEE7611C0C451100EDD2CE /* ADDetailViewController.h */,
@@ -1748,7 +1748,6 @@
 				51D077031BFC4A8000D11E5F /* AFURLRequestSerialization.m in Sources */,
 				510931861C0E7B57005EBC74 /* TAPageControl.m in Sources */,
 				51D076C31BFC4A8000D11E5F /* IQBarButtonItem.m in Sources */,
-				510A6C871BFEFBB6008A1C07 /* TaskDetailViewController.m in Sources */,
 				51FEE71B1C09ACF000EDD2CE /* SDWebImageDownloader.m in Sources */,
 				51BC8C2E1BFDD9ED00A69835 /* NoticeCell.m in Sources */,
 				51D076C61BFC4A8000D11E5F /* IQUIView+IQKeyboardToolbar.m in Sources */,
@@ -1756,6 +1755,7 @@
 				51FEE7181C09ACF000EDD2CE /* SDImageCache.m in Sources */,
 				51D076BB1BFC4A8000D11E5F /* IQUITextFieldView+Additions.m in Sources */,
 				51D077101BFC4A8000D11E5F /* StarView.m in Sources */,
+				51B9BA4E1C29141C00265DDD /* TaskViewController.m in Sources */,
 				514975181C0012BE00072D15 /* MyTaskDetailViewController.m in Sources */,
 				51D077081BFC4A8000D11E5F /* UIAlertView+AFNetworking.m in Sources */,
 				51FEE7231C09ACF000EDD2CE /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -1767,6 +1767,7 @@
 				51D076D11BFC4A8000D11E5F /* NSString+MJExtension.m in Sources */,
 				51D076DE1BFC4A8000D11E5F /* MJRefreshNormalHeader.m in Sources */,
 				51D076DF1BFC4A8000D11E5F /* MJRefreshStateHeader.m in Sources */,
+				51B9BA4D1C29141C00265DDD /* TaskDetailViewController.m in Sources */,
 				51D076DD1BFC4A8000D11E5F /* MJRefreshGifHeader.m in Sources */,
 				51D077B21BFC686900D11E5F /* Utility.m in Sources */,
 				51D076DB1BFC4A8000D11E5F /* MJRefreshBackNormalFooter.m in Sources */,
@@ -1778,7 +1779,6 @@
 				51D856B01C07F4AC00A53B0C /* MASConstraint.m in Sources */,
 				51FEE71F1C09ACF000EDD2CE /* UIButton+WebCache.m in Sources */,
 				51D076D71BFC4A8000D11E5F /* MJRefreshAutoGifFooter.m in Sources */,
-				510A6C881BFEFBB6008A1C07 /* TaskViewController.m in Sources */,
 				51FEE71E1C09ACF000EDD2CE /* SDWebImagePrefetcher.m in Sources */,
 				51D076CD1BFC4A8000D11E5F /* MJType.m in Sources */,
 				51D075B21BFC475C00D11E5F /* AppDelegate.m in Sources */,
